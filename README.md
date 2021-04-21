@@ -52,17 +52,26 @@ In the future, we plan to explore even more state-of-the-art GAN research. In pa
 * [AttnGAN: Fine-Grained Text to Image Generation with Attentional Generative Adversarial Networks](https://arxiv.org/abs/1711.10485)
 * [Direct Speech-to-image Translation](https://arxiv.org/abs/2004.03413)
 
-## TODO: Chinmay & Pratik
-### Face Aging using GANs
+## Super-Resolution GANs
 
+### Approach
+
+Super-resolution GANs is the process of inputting a low resolution image and artificially producing a high resolution image.  This allows recovery of finer texture details when we super-resolve an image with large upscaling factors; therefore, we can upscale images without sacrificing the quality of the image.
+
+### Results
+
+### Conclusion
+
+### References
+
+## TODO: Chinmay & Pratik
+##Face Aging using GANs
 ### Approach
 Face aging, also known as age synthesis and age progression, is defined as aesthetically rendering a face image with natural aging and rejuvenating effects on the individual face. It has plenty of applications in various domains including cross-age face recognition, finding lost children
 and entertainment. 
-
-### Notable papers exploring this space.
-[1. Wang_Face_Aging_With_CVPR_2018_paper](https://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Face_Aging_With_CVPR_2018_paper.pdf)
-
-[2. Face Aging With Conditional Generative Adversarial Networks](https://arxiv.org/pdf/1702.01983.pdf)
+Notable papers exploring this space
+[1](https://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Face_Aging_With_CVPR_2018_paper.pdf)
+[2](https://arxiv.org/pdf/1702.01983.pdf)
 
 ### Results
 
