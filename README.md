@@ -23,7 +23,7 @@ Our research focuses on *Generative Adversarial Networks* (GANs). We chose to di
 
 Text-to-image applications present an immediate opportunity for GANs to demonstrate their value. Creative fields such as graphic design, architecture, and video editing are obvious candidates for early option. One can imagine an architect being able to ideate designs far more quickly, potentially even in real-time with their clients. Business models may also evolve due to this research; for instance, property owners equipped with smartphones could potentially use a generative model to independently explore renovation ideas without the direct assistance of a trained architect.
 
-[Various papers and projects exploring this space](https://paperswithcode.com/task/text-to-image-generation) were researched to provide a basic understanding of the state-of-the-art. Andrew chose to use [StackGAN-v2](https://github.com/hanzhanggit/StackGAN-v2) (based on [the StackGAN++ paper](https://arxiv.org/abs/1710.10916)) as a baseline due to its foundation on PyTorch which has seen been growing in popularity in research circles. Obviously, the project was not ready for use right off the shelf; specifically, it required modifications and modernization to run properly on the SJSU High Performance Computing (HPC) system. You can browse all the changes required to get the project working on the HPC on [the cmpe255 branch of Andrew's fork of StackGAN-v2](https://github.com/AndrewSelviaSJSU/StackGAN-v2/tree/cmpe255). If you would like to run StackGAN-v2 on the HPC yourself, follow [these instructions](https://github.com/AndrewSelviaSJSU/StackGAN-v2/blob/cmpe255/cmpe255.md).
+[Various papers and projects exploring this space](https://paperswithcode.com/task/text-to-image-generation) were researched to provide a basic understanding of the state-of-the-art. Andrew chose to use [StackGAN-v2](https://github.com/hanzhanggit/StackGAN-v2) (based on [the StackGAN++ paper](https://arxiv.org/abs/1710.10916)) as a baseline due to its foundation on PyTorch which has been growing in popularity in research circles. Obviously, the project was not ready for use right off the shelf; specifically, it required modifications and modernization to run properly on the SJSU High Performance Computing (HPC) system. You can browse all the changes required to get the project working on the HPC on [the cmpe255 branch of Andrew's fork of StackGAN-v2](https://github.com/AndrewSelviaSJSU/StackGAN-v2/tree/cmpe255). If you would like to run StackGAN-v2 on the HPC yourself, follow [these instructions](https://github.com/AndrewSelviaSJSU/StackGAN-v2/blob/cmpe255/cmpe255.md).
 
 Quickly, let us establish the importance of the HPC. We need to store hundreds of gigabytes of image data and train multiple deep neural networks (GANs train both a generator and discriminator). The latter is an especially taxing task without the aid of at least one GPU. The HPC provides us with both the disk space and GPU nodes necessary to accomplish our research. More importantly, given the fact that we're students, it's free (unlike if we were forced to use an external cloud platform). Thus, for speed of iteration, it was critical for us to adapt our work for the SJSU HPC.
 
@@ -39,6 +39,42 @@ Next, let us consider the result for this sentence: "this bird has a long brown 
 
 !["this bird has a long brown bill and is brown all over."](photos/Black_Footed_Albatross_0090_796077_256_sentence7.png)
 
+### Extension
+
+Since the text-to-image problem was solved with time to spare, Andrew proceeded to explore a separate, but related problem: generating pictures of bedrooms via a GAN trained on images from the [lsun](https://www.yf.io/p/lsun) bedroom dataset. This was supported by the existing StackGAN-v2 implementation. You can run the code yourself as described [in the runbook](https://github.com/AndrewSelviaSJSU/StackGAN-v2/blob/cmpe255/cmpe255.md#bedrooms).
+
+The results include images such as this one which paints a fairly believable image including light streaming through multiple windows:
+
+![Bedroom 1](photos/bedroom1.png)
+
+It even seems to have learned about blinds and wall art. However, there are also plenty of images that look like jumbled blobs like this one:
+
+![Bedroom 2](photos/bedroom2.png)
+
+#### Evaluation
+
+While presenting these results in class, the professor questioned if there was not a more quantitative way of evaluating the efficacy of GANs. For instance, the bedroom image generation problem is so common as to have been solved by many novel GANs introduced in the past few years. How does one determine which performs the task best?
+
+This sparked Andrew to investigate this question and read multiple research papers to understand how researchers operating at the bleeding edge of GAN development compare their results. This series of papers by Ali Borji proved the most educational:
+
+* [Pros and Cons of GAN Evaluation Measures: New Developments](https://arxiv.org/abs/2103.09396): An updated version of his previous paper which fast-forwards to the state of GAN evaluation as of March 2021.
+* [Pros and Cons of GAN Evaluation Measures](https://arxiv.org/abs/1802.03446): Ali's original comparative analysis of various GAN evaluation methods.
+  
+In addition, the following papers are worth reading:
+
+* [Are GANs Created Equal? A Large-Scale Study](https://arxiv.org/abs/1711.10337)
+* [GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium](https://arxiv.org/abs/1706.08500): Introduced FID
+* [Improved Techniques for Training GANs](https://arxiv.org/abs/1606.03498): Ian Goodfellow's initial commentary on the subject.
+
+For a lighter introduction, you may choose to start with these articles:
+
+* [How to Evaluate Generative Adversarial Networks](https://machinelearningmastery.com/how-to-evaluate-generative-adversarial-networks/)
+* [How to Implement the Frechet Inception Distance (FID) for Evaluating GANs](https://machinelearningmastery.com/how-to-implement-the-frechet-inception-distance-fid-from-scratch/)
+
+The outcome of this research was awareness of the various measures that are currently being employed to compare GANs. Specifically, it reinforced that GAN evaluation is a particularly difficult problem because (unlike traditional classification or regression problems) there is no ground truth against which to compare a model's predictions. Instead, results must be measured for clarity (i.e. are there observable blemishes, smears, or noise artifacts), domain-fit (i.e. are the results believable within the context of the domain they emulate), and modality (i.e. do the results cover the full extent of the domain or are they isolated to a narrow band of potential outputs).
+
+To address the first (clarity) and third (modality) metrics, it seems many recent papers have chosen to judge themselves using the Frechet Inception Distance (FID). FID is a measure of the distance between two datasets by comparing how well a trained classifier (specifically, Inception v3) can classify samples between the two datasets. In practice, if one was to compare two identical data sets, their FID should be 0. In general, the lower the FID, the better the GAN. For instance, StyleGAN yielded a FID of 2.65 on the bedroom image generation task according to Figure 10 from [its paper](https://arxiv.org/pdf/1812.04948v3.pdf). In comparison, the FID for the bedroom images Andrew generated with StackGAN-v2 is 3.967. Based on the improved clarity of the StyleGAN results to the human eye, this measure aligns with our expectations. 
+
 ### Conclusion
 
 Despite some impressive results, this project illuminated the challenges GANs continue to face in exploring the vast search spaces involved in the text-to-image problem. It also informed how GANs have evolved since their introduction in 2014. In 7 years, researchers have propelled GANs from their origin generating randomized black-and-white images in a given search space. Now, state-of-the-art GAN research is capable of producing color images indiscernible from real ones. New frontiers such as text-to-image GAN research are exploring the ability to guide the output of GANs (rather than simply employing them to produce randomized samples). It is our responsibility to lead this nascent field forward responsibly.
@@ -51,6 +87,7 @@ In the future, we plan to explore even more state-of-the-art GAN research. In pa
 * [StackGAN++: Realistic Image Synthesis with Stacked Generative Adversarial Networks](https://arxiv.org/abs/1710.10916)
 * [AttnGAN: Fine-Grained Text to Image Generation with Attentional Generative Adversarial Networks](https://arxiv.org/abs/1711.10485)
 * [Direct Speech-to-image Translation](https://arxiv.org/abs/2004.03413)
+* [LSUN: Construction of a Large-scale Image Dataset using Deep Learning with Humans in the Loop](https://arxiv.org/abs/1506.03365)
 
 ## TODO: Chinmay & Pratik
 
