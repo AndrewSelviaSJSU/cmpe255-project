@@ -95,7 +95,7 @@ In the future, we plan to explore even more state-of-the-art GAN research. In pa
 Face aging, also known as age synthesis and age progression, is defined as aesthetically rendering a face image with natural aging and rejuvenating effects on the individual face. It has plenty of applications in various domains including cross-age face recognition, finding lost children
 and entertainment. The presented traditional face aging approaches are limited to modeling of the aging patterns missing the global comprehension of a human face (its personality traits, facial expression, possible facial accessories etc.) However, in many real-life use cases, face aging must be combined with other
 face alterations, such as adding sunglasses or beard. These non-trivial modifications require global generative models of
-human faces. Natural image generation has been thoroughly studied for years, but it has not been until 2014 when advances in deep learning has allowed to produce image samples and interpolations of very high visual fidelity.
+human faces. Natural image generation has been thoroughly studied for years, but it has not been until 2014 when advances in deep learning has allowed to produce image samples and interpolations of very high visual fidelity. You can browse all the changes required to get the project working on the HPC on the cmpe255 branch of [Chinmay's](https://github.com/mercury297/Fast-AgingGAN) or [Pratik's](https://github.com/PRKKILLER/Fast-AgingGAN) Github
 
 ##Two Primary Modules:
 1. Identity-preserved module 
