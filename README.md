@@ -115,5 +115,15 @@ IMDB-Wiki cleaned dataset of about 120K images.
 [2. Face Aging With Conditional Generative Adversarial Networks](https://arxiv.org/pdf/1702.01983.pdf)
 
 ### Results
+After testing FastGAN , Pratik and Chinmay were able to generate hundreds of aged images of celebrities including those selected below.
+
+Let us take a look at this collection of images of celebrities. The images seem to have a subtle change in a multitude of facial features like the skin tone, skin texture, lines and creases on their faces. It can be seen that the images with more lines such as the ones with wider smiles or dimples have deepend. The skin has more blemishes and the complexion does not seem highly affected althought the hair were not grey in any of the outputs. They realized that the images aged a certain way because the train dataset consisted of actors images with an age difference of 20 odd years.
+
+![aged images of celebrities](photos/actors.png)
+
+This led Chinmay and Pratik to further test this model on pictures of their present and younger selves. The results were quite impressive on the surface level but as it would seem with the previous GAN the results were very much dependent on the trained dataset. The areas on our skin with aberrations exacerbated and the texture as predicted had more blemishes but yet again the hair color did not change.
+
+![aged images of ourselves](photos/self_aging.jpeg)
 
 ### Conclusion
+This project elucidated the short-comings and challenges GANs continue to face involved in the face-aging problem. Now, state-of-the-art GAN research is capable of producing images aged 20 more years from current images. This paradigm of Machine Learning should be pursued enthusiastically owing to the multitude of areas of application and responsibly considering the privacy issues it has tied to it. 
